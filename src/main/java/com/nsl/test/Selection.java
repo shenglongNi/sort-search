@@ -160,7 +160,7 @@ public class Selection {
         }
 
         int baseIndex = partition(a, lo, hi);
-        innerQuickSort(a, lo, baseIndex);
+        innerQuickSort(a, lo, baseIndex - 1);
         innerQuickSort(a, baseIndex + 1, hi);
 
     }
@@ -173,7 +173,7 @@ public class Selection {
 
         while (lo < hi) {
 
-            while (lo < hi && v <= a[hi]) {
+            while (lo < hi && v < a[hi]) {
                 hi--;
             }
 
@@ -183,7 +183,11 @@ public class Selection {
             }
             int i = lo;
 
-            swap(a, i,j);
+            if (i < j && a[i] > a[j]) {
+
+                swap(a, i,j);
+            }
+
 
         }
 
@@ -194,7 +198,40 @@ public class Selection {
 
     }
 
+    public static void quick3Ways(int[] a, int lo, int hi) {
+
+        int N = a.length;
+
+        int v = a[lo];
+
+
+
+        int lt = lo,  i = lo + 1, gt = hi;
+
+
+        if (i >= gt) {
+            return;
+        }
+
+        while (i <= gt) {
+
+            if (a[i] < v) {
+                swap(a, i++, lt++);
+            } else if(a[i] > a[gt]){
+                swap(a, i, gt--);
+            } else {
+                i++;
+            }
+        }
+
+        quick3Ways(a, lo, lt - 1);
+        quick3Ways(a, gt +1, hi);
+
+
+    }
+
     private static void swap(int[] a, int i, int j) {
+//        System.out.println(String.format("swap(%s, %s)", i, j));
 
         int t = a[i];
         a[i] = a[j];
@@ -203,15 +240,59 @@ public class Selection {
     }
 
 
+    public static void heapSort(int[] a) {
+
+        int N = a.length;
+
+        for(int k = N / 2 -1; k >= 0; k--) {
+            sink(a, k, N);
+        }
+
+        System.out.println("有序堆：　" + Arrays.toString(a));
+
+        while (N > 1) {
+            swap(a, 0, --N);
+            System.out.println(N + "  ");
+            sink(a, 0, N);
+        }
+
+    }
+
+    public static void sink(int[] a, int k, int N) {
+
+
+        while (k <= N / 2 -1) {
+
+            int j = 2 * k + 1;
+
+            if (j < N-1 && a[j] < a[j + 1]) {
+                j++;
+            }
+
+            if (a[k] > a[j]) {
+
+                break;
+            }
+
+            swap(a, k, j);
+            k = j;
+
+        }
+
+
+    }
+
 
     public static void main(String[] args) {
-        int[] a = {3, 4, 7, 2, 1, 0, 5, 3};
+        int[] a = {3, 4, 7, 2, 1, 0, 5, 9};
+        int[] b = {3, 4, 5,7, 3, 2, 4, 3, 1, 0, 5, 4,  5, 3};
 //        sort(a);
 //        insertionSort(a);
 //        shellSort(a);
 //        merge(a);
 //        bottomToTopMergeSort(a);
-        quickSort(a);
+//        quickSort(b);
+        heapSort(a);
         System.out.println( Arrays.toString(a));
     }
 
