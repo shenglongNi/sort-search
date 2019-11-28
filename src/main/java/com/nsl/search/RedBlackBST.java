@@ -29,6 +29,15 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             N = n;
             this.color = color;
         }
+
+        @Override
+        public String toString() {
+            return "{" +
+                    "key=" + key +
+                    ", value=" + value +
+                    ", color=" + color +
+                    '}';
+        }
     }
 
 
@@ -55,10 +64,10 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
 
         if (isRed(h.right) && !isRed(h.left)) {
-            rotateLeft(h);
+            h = rotateLeft(h);
         }
         if (isRed(h.left) && isRed(h.left.left)) {
-            rotateRight(h);
+            h = rotateRight(h);
         }
         if (isRed(h.left) && isRed(h.right)) {
             flipColors(h);
@@ -126,7 +135,35 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
 
+    private void print() {
 
+        print(root);
+    }
+
+    private void print(Node h) {
+
+        if (h == null) {
+            return;
+        }
+
+        print(h.left);
+        System.out.println(h);
+        print(h.right);
+    }
+
+
+    public static void main(String[] args) {
+        RedBlackBST rbt = new RedBlackBST();
+        rbt.put(5, "tt");
+        rbt.put(2, "tt");
+        rbt.put(8, "tt");
+        rbt.put(4, "tt");
+//        rbt.put(9, "tt");
+//        rbt.put(7, "tt");
+//        rbt.put(1, "tt");
+        System.out.println("root: " + rbt.root);
+        rbt.print();
+    }
 
 
 
