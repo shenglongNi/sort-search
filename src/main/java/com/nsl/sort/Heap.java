@@ -25,7 +25,7 @@ public class Heap {
 
         /*====下沉排序===*/
         while (N > 1) {
-            exch(a, 0, --N);
+            exch(a, 0, --N); //堆顶元素和队尾元素互换
             sink(a, 0, N);
         }
 
@@ -46,20 +46,21 @@ public class Heap {
             int j = 2*k + 1;  //左孩子节点，根节点起始位置标记为1。若为0， 则左孩子节点为2k+1
 
             //此时j指针指向k 的左孩子节点，若k的左孩子小于右孩子，则将j的指针 +1 移动到k的右孩子上
-            if ((j < N -1) && less(a[j], a[j + 1])) { // j < N 说明有孩子节点 ,堆的根从1开始，数组下标从0开始
+            if ((j < N -1) && less(a[j], a[j + 1])) { // j < N-1 说明有右孩子节点 ,数组下标从0开始
 
                 j++;
             }
 
             //父节点大于孩子节点，则该子树满足顺序堆的有序性，退出，进行下一颗子树的判断
-            if (greater(a[k], a[j])) {   //此时j的指针指向右孩子节点。
+            if (greater(a[k], a[j])) {   //此时j的指针指向 k孩子节点中最大的那个节点， 若是k大于孩子节点，说明k这个子数符合大顶堆定义，
+                                        // 退出判断下一颗子树
                 break;
             }
 
-            System.out.println(String.format("swap(%s, %s)",k, j));
+            System.out.println(String.format("k=%s, swap(%s, %s)",k, a[k], a[j]));
             //父节点比孩子节点小， 则交换
             exch(a, k, j);
-            k = j;
+            k = j;  //交换后，再检查下有没有影响到下层子树的堆结构
         }
 
 
